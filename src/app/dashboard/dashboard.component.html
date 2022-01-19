@@ -51,28 +51,16 @@
                  with font-awesome or any other icon font library -->
             <li class="nav-header">Menu</li>
 
-            <li  class="nav-item" *ngFor="let item of menuOptions">
-              <a [routerLink]="'item.link'" class="nav-link">
-                <i class="nav-icon fas fa-house-user"></i>
+            <li  class="nav-item" *ngFor="let nav of menuOptions">
+              <a [routerLink]="nav.link" class="nav-link">
+                <i [className]="'nav-icon ' + nav.icon"></i>
                 <p>
-                  teste
+                  {{nav.name}}
+                  <span class="badge badge-info right">2</span>
                 </p>
-                <p>{{item?.name}}</p>
               </a>
-              <!-- <a >teste {{item.name}} </a> -->
             </li>
 
-            <li class="nav-item" *ngFor="let nav of menuOptions">
-              <a [routerLink]="'link'" class="nav-link">
-                <i class=´nav-icon ${nav.icon}´></i>
-                <p>
-                  teste
-                  {{nav.name}}
-                  <!-- Veriicar opcao de colocar numero de agendamentos/noificacao -->
-                  <!-- <span class="badge badge-info right">2</span> -->
-                </p>
-              </a>
-            </li>
           </ul>
         </nav>
         <!-- /.sidebar-menu -->
