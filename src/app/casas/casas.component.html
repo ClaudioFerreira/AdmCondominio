@@ -1,1 +1,62 @@
-<p>casas works!</p>
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title">Pesquisa</h3>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-lg-5 col-md-5 col-sm-12 mb-2">
+            <input type="text" class="form-control" placeholder="Quadra">
+          </div>
+          <div class="col-lg-5 col-md-5 col-sm-12 mb-2">
+            <input type="text" class="form-control" placeholder="Lote">
+          </div>
+          <div class="col-lg-2 col-md-2 col-sm-12 mb-2">
+            <button type="submit" class="btn btn-default btn-block">
+              <i class="fas fa-search"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+      <!-- /.card-body -->
+    </div>
+  </div>
+
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title">Tabela com todos as casas</h3>
+      </div>
+      <!-- /.card-header -->
+      <div class="card-body table-responsive p-0">
+        <table class="table table-hover text-nowrap">
+          <thead>
+            <tr>
+              <th>Proprietario</th>
+              <th>Quadra</th>
+              <th>Lote</th>
+              <th>Status</th>
+              <th>Detalhes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>John Doe</td>
+              <td>B</td>
+              <td>42</td>
+              <td><span class="badge bg-warning">Em Obra</span></td>
+              <td>
+                <a [routerLink]="'detalhes'" [queryParams]="{quadra: 1, lote: 2}" class="btn btn-outline-info">
+                  <i class="fas fa-eye"></i> Detalhes
+                </a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <!-- /.card-body -->
+    </div>
+    <!-- /.card -->
+  </div>
+</div>
