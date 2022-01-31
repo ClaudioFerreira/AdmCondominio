@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "admcondominio-57fe2": {
+      "hosting": {
+        "AdmCondominio": [
+          "admcondominio-57fe2"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "admcondominio-57fe2"
+  }
+}

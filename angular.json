@@ -124,6 +124,16 @@
             ],
             "scripts": []
           }
+        },
+        "deploy": {
+          "builder": "@angular/fire:deploy",
+          "options": {
+            "prerender": false,
+            "ssr": false,
+            "browserTarget": "AdmCondominio:build:production",
+            "firebaseProject": "admcondominio-57fe2",
+            "firebaseHostingSite": "admcondominio-57fe2"
+          }
         }
       }
     }
