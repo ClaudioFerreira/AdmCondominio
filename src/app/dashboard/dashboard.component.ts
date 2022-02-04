@@ -1,3 +1,4 @@
+import { AuthService } from './../shared/services/auth.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -10,7 +11,9 @@ import { Component, OnInit } from '@angular/core';
 export class DashboardComponent implements OnInit {
   menuOptions: any[] = []
 
-  constructor() {
+  constructor(
+    private authService: AuthService
+  ) {
     this.menuOptions = [
       {
         icon: 'fas fa-house-user',
@@ -26,6 +29,10 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit(): void {
+  }
+
+  logout(): void {
+    this.authService.logoutUser()
   }
 
 }

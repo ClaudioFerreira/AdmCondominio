@@ -1,4 +1,3 @@
-import { AppComponent } from './app.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
@@ -8,9 +7,10 @@ import { LoginComponent } from './auth/login/login.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 
 const routes: Routes = [
-  { path: '', component: AppComponent },
+  { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
   { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
+  {path: '**', redirectTo: 'login'},
 ];
 
 @NgModule({

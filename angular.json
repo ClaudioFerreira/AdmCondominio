@@ -32,6 +32,7 @@
             ],
             "styles": [
               "src/styles.scss",
+              "node_modules/ngx-toastr/toastr.css",
               "node_modules/admin-lte/plugins/fontawesome-free/css/all.min.css",
               "node_modules/admin-lte/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css",
               "node_modules/admin-lte/plugins/icheck-bootstrap/icheck-bootstrap.min.css",
