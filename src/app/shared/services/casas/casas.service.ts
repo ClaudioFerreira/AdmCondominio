@@ -19,6 +19,11 @@ export class CasasService {
 
   getAll(): Observable<any> {
     const casas = collection(this.firestore, this.collectionName)
-    return collectionData(casas)
+    return collectionData(casas, { idField: 'id' })
+  }
+
+  getByID(id: string) {
+    const casa = doc(this.firestore, `${this.collectionName}/${id}`)
+    return docData(casa, { idField: 'id' }) as Observable<any>;
   }
 }
