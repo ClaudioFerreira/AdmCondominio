@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 
 import { ToastrService } from 'ngx-toastr';
-import { SearchService } from '../shared/services/search/search.service'
+// import { SearchService } from '../shared/services/search/search.service'
+import { CasasService } from '../shared/services/casas/casas.service'
 
 @Component({
   selector: 'app-casas',
@@ -21,10 +22,12 @@ export class CasasComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private toastr: ToastrService,
-    // private searchService: SearchService
+    // private searchService: SearchService,
+    private casasService: CasasService,
     ) { }
 
   ngOnInit(): void {
+    this.loadAll()
   }
 
   onSearch() {
@@ -43,6 +46,17 @@ export class CasasComponent implements OnInit {
     //   this.toastr.error(`Tente novamente mais tarde`, 'Falha na busca')
     // })
 
+  }
+
+  loadAll() {
+    this.toastr.info('Buscando dados', 'Carregando..')
+
+    this.casasService.getAll().subscribe((res: any) => {
+      this.casas = res
+      this.toastr.success('', 'Sucesso')
+    }, error => {
+      this.toastr.warning('Algo deu errado, tenten novamente mais tarde', 'Ops..')
+    })
   }
 
 }

@@ -9,16 +9,16 @@ import {
 @Injectable({
   providedIn: 'root'
 })
-export class SearchService {
+export class CasasService {
 
   readonly collectionName = 'casa'
 
   constructor(
-    private firestore: Firestore
+    private firestore: Firestore,
   ) { }
 
-  // filterPersonalized(quadra: string, lote: string): Observable<any> {
-  //   const casa = collection(this.firestore, this.collectionName, ref => ref.where('quada', '==', quadra).where('lote', '==', lote))
-  //   return collectionData(casa) as Observable<any>
-  // }
+  getAll(): Observable<any> {
+    const casas = collection(this.firestore, this.collectionName)
+    return collectionData(casas)
+  }
 }

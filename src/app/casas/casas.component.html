@@ -43,11 +43,11 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>John Doe</td>
-              <td>B</td>
-              <td>42</td>
-              <td><span class="badge bg-warning">Em Obra</span></td>
+            <tr *ngFor="let item of casas; let i = index">
+              <td>{{item?.proprietario?.nome}}</td>
+              <td>{{item?.propriedade?.quadra}}</td>
+              <td>{{item?.propriedade?.lote}}</td>
+              <td><span class="badge bg-warning">{{item?.propriedade?.status}}</span></td>
               <td>
                 <a [routerLink]="'detalhes'" [queryParams]="{quadra: 1, lote: 2}" class="btn btn-outline-info">
                   <i class="fas fa-eye"></i> Detalhes
