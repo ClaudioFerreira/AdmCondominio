@@ -37,7 +37,7 @@ export class CasasService {
     return setDoc(casaRef, casa);
   }
 
-  deleteBook(casa: any) {
+  delete(casa: any) {
     const casaRef = doc(this.firestore, `${this.collectionName}/${casa.id}`);
     return deleteDoc(casaRef);
   }
