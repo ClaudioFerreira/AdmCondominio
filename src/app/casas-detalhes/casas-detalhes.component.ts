@@ -2,8 +2,10 @@ import { Component, OnInit } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms'
 
+import Swal from 'sweetalert2'
 import { ToastrService } from 'ngx-toastr';
 import { CasasService } from '../shared/services/casas/casas.service'
+import { SwAlertService } from '../shared/services/swAlert/sw-alert.service'
 
 @Component({
   selector: 'app-casas-detalhes',
@@ -41,10 +43,11 @@ export class CasasDetalhesComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
+    private router: Router,
     private activatedRoute: ActivatedRoute,
-    private casasService: CasasService,
     private toastr: ToastrService,
-    private router: Router
+    private casasService: CasasService,
+    private swAlertService: SwAlertService
   ) { }
 
   ngOnInit(): void {
@@ -56,17 +59,13 @@ export class CasasDetalhesComponent implements OnInit {
   }
 
   loadData(id: string) {
-    this.toastr.info('Buscando dados', 'Carregando..')
+    this.swAlertService.swAlert("find")
 
     this.casasService.getByID(id).subscribe((result) => {
-      this.toastr.success('', 'Sucesso')
 
       this.casa = result
-
       this.propriedadeForm.patchValue(result.propriedade)
-
       this.proprietarioForm.patchValue(result.proprietario)
-
       this.notificacoesForm.patchValue(result.notificacoes)
     })
   }
@@ -83,17 +82,21 @@ export class CasasDetalhesComponent implements OnInit {
 
     if(this.casa?.id) {
       this.toastr.info('Salvando edição', 'Salvando..')
+      this.swAlertService.swAlert("success")
+      this.toastr.clear()
 
       this.casasService.update(data)
       .then((res) => {
         this.loadData(this.casa.id)
       },
       error => {
-        this.toastr.error('Algo deu errado, tente novamente mais tarde', 'Opss')
+        this.swAlertService.swAlert("error")
       })
 
     } else {
       this.toastr.info('Realizando novo acadastro', 'Salvando..')
+      this.swAlertService.swAlert("success")
+      this.toastr.clear()
 
       this.casasService.add(data)
       .then((res) => {
@@ -102,17 +105,53 @@ export class CasasDetalhesComponent implements OnInit {
           {
             relativeTo: this.activatedRoute,
             queryParams: { id: res.id },
-            queryParamsHandling: 'merge', // remove to replace all query params by provided
+            queryParamsHandling: 'merge',
           }
         )
 
         this.loadData(res.id)
-
       },
       error => {
-        this.toastr.error('Algo deu errado, tente novamente mais tarde', 'Opss')
+        this.swAlertService.swAlert("error")
       })
     }
 
+  }
+
+  onRemove() {
+    Swal.fire({
+      icon: 'warning',
+      title: 'Excluir?',
+      text: 'Realmente quer excluir esse cadastro? Essa ação não pode ser revertida!',
+      confirmButtonText: 'Execluir',
+      confirmButtonColor: 'red',
+      showDenyButton: true,
+      denyButtonText: 'Cancelar',
+      denyButtonColor: '#adb5bd',
+    }).then(response => {
+      if(response.isConfirmed) {
+        Swal.fire({
+          icon: 'info',
+          title: 'Aguarde',
+          showConfirmButton: false,
+        })
+
+        setTimeout(() => {
+          const data = {
+            id: this.casa?.id ? this.casa.id : '',
+            proprietario: this.proprietarioForm.value,
+            propriedade: this.propriedadeForm.value,
+            notificacoes: this.notificacoesForm.value
+          }
+
+          this.casasService.delete(data).then(_ => {
+            this.swAlertService.swAlert("success")
+            this.router.navigate(['/dashboard/casas'])
+          }, _ => {
+            this.swAlertService.swAlert("error")
+          })
+        }, 2000);
+      }
+    })
   }
 }
