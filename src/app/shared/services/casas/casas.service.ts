@@ -26,4 +26,19 @@ export class CasasService {
     const casa = doc(this.firestore, `${this.collectionName}/${id}`)
     return docData(casa, { idField: 'id' }) as Observable<any>;
   }
+
+  add(casa: any) {
+    const casaRef = collection(this.firestore, this.collectionName);
+    return addDoc(casaRef, casa);
+  }
+
+  update(casa: any) {
+    const casaRef = doc(this.firestore, `${this.collectionName}/${casa.id}`);
+    return setDoc(casaRef, casa);
+  }
+
+  deleteBook(casa: any) {
+    const casaRef = doc(this.firestore, `${this.collectionName}/${casa.id}`);
+    return deleteDoc(casaRef);
+  }
 }

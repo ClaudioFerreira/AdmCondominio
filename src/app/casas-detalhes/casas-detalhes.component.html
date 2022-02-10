@@ -10,43 +10,39 @@
     <div class="tab-content">
 
       <div class="tab-pane active" id="proprietario">
-        <form class="form-horizontal">
+        <form [formGroup]="proprietarioForm" (ngSubmit)="onSubmit()" class="form-horizontal">
           <div class="form-group row">
             <label for="inputName" class="col-sm-2 col-form-label">Nome</label>
             <div class="col-sm-10">
-              <input type="text" class="form-control" id="inputName" placeholder="Nome">
+              <input type="text" class="form-control" id="inputName" placeholder="Nome" formControlName="nome">
             </div>
           </div>
           <div class="form-group row">
             <label for="inputEmail" class="col-sm-2 col-form-label">Email</label>
             <div class="col-sm-10">
-              <input type="email" class="form-control" id="inputEmail" placeholder="Email">
+              <input type="email" class="form-control" id="inputEmail" placeholder="Email" formControlName="email">
             </div>
           </div>
           <div class="form-group row">
             <label for="inputCellphone" class="col-sm-2 col-form-label">Celular</label>
             <div class="col-sm-8">
-              <input type="text" class="form-control" id="inputCellphone" placeholder="Celular">
+              <input type="text" class="form-control" id="inputCellphone" placeholder="Celular" formControlName="celular">
             </div>
             <div class="col-sm-2 form-check">
-              <input class="form-check-input" type="checkbox" checked="">
+              <input class="form-check-input" type="checkbox" [checked]="proprietarioForm.value.whatsapp" formControlName="whatsapp">
               <label class="form-check-label">Whatsapp</label>
             </div>
-            <!-- <div class="col-sm-2 custom-control custom-switch">
-              <input type="checkbox" class="custom-control-input" id="inputWhatsapp">
-              <label class="custom-control-label" for="inputWhatsapp">Whatsapp</label>
-            </div> -->
           </div>
           <div class="form-group row">
             <label for="inputTelphone" class="col-sm-2 col-form-label">Telefone</label>
             <div class="col-sm-10">
-              <input type="text" class="form-control" id="inputTelphone" placeholder="Telefone">
+              <input type="text" class="form-control" id="inputTelphone" placeholder="Telefone" formControlName="telefone">
             </div>
           </div>
           <div class="form-group row">
             <label for="inputComments" class="col-sm-2 col-form-label">Observações</label>
             <div class="col-sm-10">
-              <textarea class="form-control" id="inputComments" rows="6" placeholder="Observações"></textarea>
+              <textarea class="form-control" id="inputComments" rows="6" placeholder="Observações" formControlName="observacoes"></textarea>
             </div>
           </div>
 
@@ -60,35 +56,35 @@
       <!-- /.tab-pane -->
 
       <div class="tab-pane" id="imovel">
-        <form class="form-horizontal">
+        <form [formGroup]="propriedadeForm" (ngSubmit)="onSubmit()" class="form-horizontal">
           <div class="form-group row">
             <label for="inputLote" class="col-sm-2 col-form-label">Lote</label>
             <div class="col-sm-10">
-              <input type="text" class="form-control" id="inputLote" placeholder="Lote">
+              <input type="text" class="form-control" id="inputLote" placeholder="Lote" formControlName="lote">
             </div>
           </div>
           <div class="form-group row">
             <label for="inputQuadra" class="col-sm-2 col-form-label">Quadra</label>
             <div class="col-sm-10">
-              <input type="text" class="form-control" id="inputQuadra" placeholder="Quadra">
+              <input type="text" class="form-control" id="inputQuadra" placeholder="Quadra" formControlName="quadra">
             </div>
           </div>
           <div class="form-group row">
             <label for="inputStatus" class="col-sm-2 col-form-label">Status</label>
             <div class="col-sm-10">
-              <select class="form-control">
-                <option>Terreno Vazio</option>
-                <option>Terraplanagem</option>
-                <option>Em Obra</option>
-                <option>Finalizado</option>
-                <option>Morador</option>
+              <select class="form-control" formControlName="status">
+                <option value="Terreno Vazio" >Terreno Vazio</option>
+                <option value="Terraplanagem" >Terraplanagem</option>
+                <option value="Em Obra" >Em Obra</option>
+                <option value="Finalizado" >Finalizado</option>
+                <option value="Morador" >Morador</option>
               </select>
             </div>
           </div>
           <div class="form-group row">
             <label for="inputComments" class="col-sm-2 col-form-label">Observações</label>
             <div class="col-sm-10">
-              <textarea class="form-control" id="inputComments" rows="6" placeholder="Observações"></textarea>
+              <textarea class="form-control" id="inputComments" rows="6" placeholder="Observações" formControlName="observacoes"></textarea>
             </div>
           </div>
           <div class="form-group row">
@@ -100,7 +96,7 @@
       </div>
 
       <div class="tab-pane" id="notificacoes">
-        <form class="form-horizontal">
+        <form [formGroup]="notificacoesForm" (ngSubmit)="onSubmit()" class="form-horizontal">
           <div class="form-group row">
             <label for="inputPhoto" class="col-sm-2 col-form-label">Fotos</label>
             <div class="col-sm-10 custom-file">
