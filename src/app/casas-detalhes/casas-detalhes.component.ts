@@ -76,7 +76,9 @@ export class CasasDetalhesComponent implements OnInit {
       this.casa = result
       this.propriedadeForm.patchValue(result.propriedade)
       this.proprietarioForm.patchValue(result.proprietario)
-      this.notificacoesForm.patchValue(result.notificacoes)
+      // this.notificacoesForm.patchValue(result.notificacoes)
+      this.notificacoesForm.reset()
+      console.log(result)
     })
   }
 
@@ -85,7 +87,7 @@ export class CasasDetalhesComponent implements OnInit {
       id: this.casa?.id ? this.casa.id : '',
       proprietario: this.proprietarioForm.value,
       propriedade: this.propriedadeForm.value,
-      notificacoes: this.notificacoesForm.value
+      notificacoes: this.casa?.notificacoes?.lenght > 0 ?  [... this.casa?.notificacoes, this.notificacoesForm.value] : [this.notificacoesForm.value]
     }
 
     console.table(data)
