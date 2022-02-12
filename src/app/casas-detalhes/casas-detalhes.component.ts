@@ -58,6 +58,16 @@ export class CasasDetalhesComponent implements OnInit {
     })
   }
 
+  selectFile(event: any) {
+    let reader = new FileReader()
+    reader.readAsDataURL(event.target.files[0])
+    this.casa.tempFiles = this.casa.tempFiles ? [...this.casa.tempFiles, event.target.files[0]] : [event.target.files[0]]
+
+    reader.onload = (event: any) => {
+      this.casa.tempURL = this.casa.tempURL ? [...this.casa.tempURL, event.target.result] : [event.target.result]
+    }
+  }
+
   loadData(id: string) {
     this.swAlertService.swAlert("find")
 

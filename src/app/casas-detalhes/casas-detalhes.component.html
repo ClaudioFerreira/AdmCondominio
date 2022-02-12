@@ -110,56 +110,76 @@
 
       <div class="tab-pane" id="notificacoes">
         <form [formGroup]="notificacoesForm" (ngSubmit)="onSubmit()" class="form-horizontal">
+
           <div class="form-group row">
             <label for="inputPhoto" class="col-sm-2 col-form-label">Fotos</label>
             <div class="col-sm-10 custom-file">
-              <input type="file" class="custom-file-input" id="inputPhoto" accept="image/*">
-              <label class="custom-file-label" for="inputPhoto">Choose file</label>
+              <input type="file" class="form-control custom-file-input" id="inputPhoto" accept="image/*" (change)="selectFile($event)" >
+              <label class="custom-file-label" for="inputPhoto">Escolha o Arquivo</label>
+            </div>
+
+            <div class="col-md-2" *ngIf="casa?.tempURL"></div>
+            <div class="col-md-10 col-sm-12 mt-4" *ngIf="casa?.tempURL">
+              <div class="form-group row">
+                <div class="col-sm-3" *ngFor="let item of casa?.tempURL" >
+                  <a href="{{item}}" data-toggle="lightbox" data-title="sample 1 - white" data-gallery="gallery">
+                    <img src="{{item}}" class="img-fluid mb-2" alt="white sample">
+                  </a>
+                </div>
+              </div>
             </div>
           </div>
+
+          <div class="form-group row">
+            <label for="inputDate" class="col-sm-2 col-form-label">Data</label>
+            <div class="col-sm-10">
+              <input type="date" class="form-control" id="inputDate" placeholder="Data" formControlName="data">
+            </div>
+          </div>
+
           <div class="form-group row">
             <label for="inputComments" class="col-sm-2 col-form-label">Observações</label>
             <div class="col-sm-10">
-              <textarea class="form-control" id="inputComments" rows="6" placeholder="Observações"></textarea>
+              <textarea class="form-control" id="inputComments" rows="6" placeholder="Observações" formControlName="observacoes"></textarea>
             </div>
           </div>
+
           <div class="form-group row">
             <div class="offset-sm-2 col-sm-10">
               <button type="submit" class="btn btn-primary">Salvar</button>
             </div>
           </div>
-        </form>
+        </form
+        >
+        <hr>
+        <br>
 
-        <table class="table table-striped">
-          <thead>
-            <tr>
-              <th style="width: 10px">Data</th>
-              <th>Observação</th>
-              <th>Fotos</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td style="vertical-align: inherit;">1/1/2022</td>
-              <td style="vertical-align: inherit;">
+        <div class="row">
+          <div class="col-12 mb-3">
+            <h3>Histórico</h3>
+          </div>
+          <div class="col-md-10 col-sm-12">
+            <div class="form-group row">
+              <label for="inputComments" class="col-sm-2 col-form-label">Data</label>
+              <div class="col-sm-10">
                 <textarea class="form-control" id="inputComments" rows="6" placeholder="Observações"></textarea>
-              </td>
-              <td style="vertical-align: inherit;">
-                <div class="row">
-                  <div class="col-sm-12 col-md-3" >
-                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRxlWQlN-wHuqu__-_YZ4UWu97-MU8Z10R4_g&usqp=CAU" alt="">
-                  </div>
-                  <div class="col-sm-12 col-md-3" >
-                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRxlWQlN-wHuqu__-_YZ4UWu97-MU8Z10R4_g&usqp=CAU" alt="">
-                  </div>
-                  <div class="col-sm-12 col-md-3" >
-                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRxlWQlN-wHuqu__-_YZ4UWu97-MU8Z10R4_g&usqp=CAU" alt="">
-                  </div>
-                </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-2 col-sm-12">
+            <div class="btn btn-block btn-danger"><i class="fas fa-trash"></i> Excluir</div>
+            <div class="btn btn-block btn-primary"><i class="fas fa-save"></i> Salvar</div>
+          </div>
+          <div class="col-md-2 col-sm-12" ></div>
+          <div class="col-md-10 col-sm-12">
+            <div class="row">
+              <div class="col-sm-3">
+                <a href="https://via.placeholder.com/1200/FFFFFF.png?text=1" data-toggle="lightbox" data-title="sample 1 - white" data-gallery="gallery">
+                  <img src="https://via.placeholder.com/300/FFFFFF?text=1" class="img-fluid mb-2" alt="white sample">
+                </a>
+              </div>
+            </div>
+          </div>
 
       </div>
       <!-- /.tab-pane -->
