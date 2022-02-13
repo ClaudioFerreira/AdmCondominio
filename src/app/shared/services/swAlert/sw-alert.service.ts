@@ -13,7 +13,8 @@ export class SwAlertService {
     alert:
       'error' |
       'success' |
-      'find'
+      'find' |
+      'saving'
   ) {
     switch (alert) {
       case 'error':
@@ -36,10 +37,15 @@ export class SwAlertService {
         Swal.fire({
           icon: 'info',
           title: 'Buscando',
-          text: 'Buscando informações',
+          text: 'Buscando informações atualizadas',
           showConfirmButton: false,
-          timer: 1500,
-          timerProgressBar: true,
+        })
+      break
+      case 'saving':
+        Swal.fire({
+          icon: 'info',
+          title: 'Salvando ...',
+          showConfirmButton: false,
         })
       break
 

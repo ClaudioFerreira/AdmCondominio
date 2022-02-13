@@ -1,3 +1,4 @@
+import { StorageService } from './../shared/services/storage/storage.service';
 import { Component, OnInit } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms'
@@ -46,11 +47,14 @@ export class CasasDetalhesComponent implements OnInit {
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private toastr: ToastrService,
+    private swAlertService: SwAlertService,
     private casasService: CasasService,
-    private swAlertService: SwAlertService
+    private storageService: StorageService,
   ) { }
 
   ngOnInit(): void {
+    this.casa = null
+
     this.activatedRoute.queryParams.subscribe((params: any) => {
       if(params.id) {
         this.loadData(params.id)
@@ -69,6 +73,7 @@ export class CasasDetalhesComponent implements OnInit {
   }
 
   loadData(id: string) {
+    this.casa = null
     this.swAlertService.swAlert("find")
 
     this.casasService.getByID(id).subscribe((result) => {
@@ -76,27 +81,53 @@ export class CasasDetalhesComponent implements OnInit {
       this.casa = result
       this.propriedadeForm.patchValue(result.propriedade)
       this.proprietarioForm.patchValue(result.proprietario)
-      // this.notificacoesForm.patchValue(result.notificacoes)
+
       this.notificacoesForm.reset()
-      console.log(result)
-    })
+      this.swAlertService.swAlert("success")
+  })
+  }
+
+  onPreSubmit() {
+    let urls: any[] = []
+    if(this.casa.tempFiles && this.notificacoesForm.valid) {
+      this.swAlertService.swAlert('saving')
+      for (let index = 0; index < this.casa.tempFiles.length; index++) {
+        const element = this.casa.tempFiles[index];
+
+        this.storageService.insertOrUpdateStorageFile(element)
+        .then(snapshot => {
+          this.storageService.getDownloadURL(snapshot)
+          .then(downloadURL => {
+            console.log(downloadURL)
+            urls.push(downloadURL)
+
+            if (this.casa.tempFiles.length >= index) {
+              this.notificacoesForm.patchValue({fotos: urls})
+              this.onSubmit()
+            }
+          })
+        })
+      }
+    } else {
+      this.onSubmit()
+    }
   }
 
   onSubmit() {
+    this.swAlertService.swAlert('saving')
+
     const data = {
       id: this.casa?.id ? this.casa.id : '',
       proprietario: this.proprietarioForm.value,
       propriedade: this.propriedadeForm.value,
-      notificacoes: this.casa?.notificacoes?.lenght > 0 ?  [... this.casa?.notificacoes, this.notificacoesForm.value] : [this.notificacoesForm.value]
+      notificacoes: this.casa?.notificacoes?.length > 0 && this.notificacoesForm.valid
+      ? [...this.casa?.notificacoes, this.notificacoesForm.value]
+      : this.casa?.notificacoes?.length > 0 && this.notificacoesForm.invalid
+        ? [...this.casa?.notificacoes]
+        : [this.notificacoesForm.value]
     }
 
-    console.table(data)
-
     if(this.casa?.id) {
-      this.toastr.info('Salvando edição', 'Salvando..')
-      this.swAlertService.swAlert("success")
-      this.toastr.clear()
-
       this.casasService.update(data)
       .then((res) => {
         this.loadData(this.casa.id)
@@ -106,10 +137,6 @@ export class CasasDetalhesComponent implements OnInit {
       })
 
     } else {
-      this.toastr.info('Realizando novo acadastro', 'Salvando..')
-      this.swAlertService.swAlert("success")
-      this.toastr.clear()
-
       this.casasService.add(data)
       .then((res) => {
         this.router.navigate(
@@ -127,7 +154,6 @@ export class CasasDetalhesComponent implements OnInit {
         this.swAlertService.swAlert("error")
       })
     }
-
   }
 
   onRemove() {
