@@ -61,7 +61,7 @@
 
           <div class="form-group row">
             <div class="offset-sm-2 col-sm-10">
-              <button type="submit" class="btn btn-primary">Salvar</button>
+              <button type="submit" class="btn btn-primary" [disabled]="proprietarioForm.invalid">Salvar</button>
             </div>
           </div>
         </form>
@@ -102,7 +102,7 @@
           </div>
           <div class="form-group row">
             <div class="offset-sm-2 col-sm-10">
-              <button type="submit" class="btn btn-primary">Salvar</button>
+              <button type="submit" class="btn btn-primary" [disabled]="propriedadeForm.invalid">Salvar</button>
             </div>
           </div>
         </form>
@@ -121,9 +121,10 @@
             <div class="col-md-2" *ngIf="casa?.tempURL"></div>
             <div class="col-md-10 col-sm-12 mt-4" *ngIf="casa?.tempURL">
               <div class="form-group row">
-                <div class="col-sm-3" *ngFor="let item of casa?.tempURL" >
+                <div class="col-sm-3" *ngFor="let item of casa?.tempURL; let i = index" >
                   <a href="{{item}}" data-toggle="lightbox" data-title="sample 1 - white" data-gallery="gallery">
                     <img src="{{item}}" class="img-fluid mb-2" alt="white sample">
+                    <button class="btn btn-sm btn-danger btn-exclude" type="button" (click)="removeFile(i)"><i class="fa fa-ban"></i></button>
                   </a>
                 </div>
               </div>
@@ -146,7 +147,7 @@
 
           <div class="form-group row">
             <div class="offset-sm-2 col-sm-10">
-              <button type="submit" class="btn btn-primary">Salvar</button>
+              <button type="submit" class="btn btn-primary" [disabled]="notificacoesForm.invalid">Salvar</button>
             </div>
           </div>
         </form>
@@ -160,24 +161,22 @@
           <div class="row" *ngFor="let item of casa?.notificacoes">
             <div class="col-md-10 col-sm-12">
               <div class="form-group row">
-                <label for="inputComments" class="col-sm-4 col-form-label">{{item?.data | date: 'dd/MM/yyyy'}}</label>
-                <div class="col-sm-8">
-                  <textarea class="form-control" id="inputComments" rows="6" [value]="item?.observacoes"></textarea>
+                <label for="inputComments" class="col-sm-3 col-form-label">{{item?.data | date: 'dd/MM/yyyy'}}</label>
+                <div class="col-sm-9">
+                  <textarea class="form-control" id="inputComments" rows="6" [value]="item?.observacoes" readonly></textarea>
                 </div>
               </div>
             </div>
             <div class="col-md-2 col-sm-12">
-              <div class="btn btn-block btn-danger"><i class="fas fa-trash"></i> Excluir</div>
-              <button class="btn btn-block btn-primary" type="button" (click)="onPreSubmit()"><i class="fas fa-save"></i> Salvar</button>
+              <!-- <div class="btn btn-block btn-danger"><i class="fas fa-trash"></i> Excluir</div> -->
+              <!-- <button class="btn btn-block btn-primary" type="button" (click)="onPreSubmit()"><i class="fas fa-save"></i> Salvar</button> -->
             </div>
-            <!-- <div class="col-md-4 col-sm-12" *ngIf="item?.fotos" ></div> -->
             <div class="col-12" *ngIf="item?.fotos" >
               <div class="row">
-                <div class="col-sm-3" *ngFor="let foto of item?.fotos; last as last">
-                  <a href="https://via.placeholder.com/1200/FFFFFF.png?text=1" data-toggle="lightbox" data-title="sample 1 - white" data-gallery="gallery">
-                    <img src="{{foto}}" class="img-fluid mb-2" alt="white sample">
+                <div class="col-sm-3" *ngFor="let foto of item?.fotos">
+                  <a href="{{foto.url}}" data-toggle="lightbox" data-title="sample 1 - white" data-gallery="gallery" target="blank">
+                    <img src="{{foto.url}}" class="img-fluid mb-2" alt="{{foto.name}}">
                   </a>
-                  <hr class="mb-4" *ngIf="!last">
                 </div>
               </div>
             </div>

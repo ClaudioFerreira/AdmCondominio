@@ -1,7 +1,12 @@
-import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 
-import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import {
+  getStorage,
+  ref,
+  uploadBytes,
+  getDownloadURL,
+  deleteObject
+} from "firebase/storage";
 
 @Injectable({
   providedIn: 'root'
@@ -21,4 +26,11 @@ export class StorageService {
   getDownloadURL(snapshot: any): Promise<any> {
     return getDownloadURL(snapshot.ref)
   }
+
+  deleteStorageFile(path: string): Promise<any> {
+    const desertRef = ref(this.storage, path);
+
+    return deleteObject(desertRef)
+  }
+
 }

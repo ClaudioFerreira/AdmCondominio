@@ -38,7 +38,7 @@ export class CasasDetalhesComponent implements OnInit {
 
   notificacoesForm = this.fb.group({
     data: new FormControl('', [Validators.required]),
-    fotos: new FormControl(['']),
+    fotos: new FormControl({}),
     observacoes: new FormControl('', [Validators.required]),
   })
 
@@ -72,6 +72,11 @@ export class CasasDetalhesComponent implements OnInit {
     }
   }
 
+  removeFile(index: number) {
+    this.casa.tempFiles.splice(index, 1)
+    this.casa.tempURL.splice(index, 1)
+  }
+
   loadData(id: string) {
     this.casa = null
     this.swAlertService.swAlert("find")
@@ -88,7 +93,7 @@ export class CasasDetalhesComponent implements OnInit {
   }
 
   onPreSubmit() {
-    let urls: any[] = []
+    let data: any[] = []
     if(this.casa.tempFiles && this.notificacoesForm.valid) {
       this.swAlertService.swAlert('saving')
       for (let index = 0; index < this.casa.tempFiles.length; index++) {
@@ -98,11 +103,13 @@ export class CasasDetalhesComponent implements OnInit {
         .then(snapshot => {
           this.storageService.getDownloadURL(snapshot)
           .then(downloadURL => {
-            console.log(downloadURL)
-            urls.push(downloadURL)
+            data.push({url: downloadURL, name: snapshot.ref.name})
+            console.log(data)
 
             if (this.casa.tempFiles.length >= index) {
-              this.notificacoesForm.patchValue({fotos: urls})
+              console.log(data)
+              this.notificacoesForm.patchValue({fotos: data})
+              console.log(this.notificacoesForm.value)
               this.onSubmit()
             }
           })
@@ -192,4 +199,41 @@ export class CasasDetalhesComponent implements OnInit {
       }
     })
   }
+
+  // onRemoveFile() {
+  //   Swal.fire({
+  //     icon: 'warning',
+  //     title: 'Excluir?',
+  //     text: 'Realmente quer excluir esse cadastro? Essa ação não pode ser revertida!',
+  //     confirmButtonText: 'Execluir',
+  //     confirmButtonColor: 'red',
+  //     showDenyButton: true,
+  //     denyButtonText: 'Cancelar',
+  //     denyButtonColor: '#adb5bd',
+  //   }).then(response => {
+  //     if(response.isConfirmed) {
+  //       Swal.fire({
+  //         icon: 'info',
+  //         title: 'Aguarde',
+  //         showConfirmButton: false,
+  //       })
+
+  //       setTimeout(() => {
+  //         const data = {
+  //           id: this.casa?.id ? this.casa.id : '',
+  //           proprietario: this.proprietarioForm.value,
+  //           propriedade: this.propriedadeForm.value,
+  //           notificacoes: this.notificacoesForm.value
+  //         }
+
+  //         this.casasService.delete(data).then(_ => {
+  //           this.swAlertService.swAlert("success")
+  //           this.router.navigate(['/dashboard/casas'])
+  //         }, _ => {
+  //           this.swAlertService.swAlert("error")
+  //         })
+  //       }, 2000);
+  //     }
+  //   })
+  // }
 }
