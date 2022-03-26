@@ -1,5 +1,4 @@
-import { Observable } from 'rxjs';
-import { ToastrService } from 'ngx-toastr';
+
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
 
@@ -25,15 +24,12 @@ export class AuthGuard implements CanActivate {
       return new Promise((resolve, reject) => {
           this.afAuth.onAuthStateChanged(this.auth, (user) => {
               if (user) {
-
-                  // if (!user.emailVerified)                            // if the user hasn't verified their email, send them to that page
-                  //     this.router.navigate(['/verify-email']);
-
-                  resolve(true);
+                resolve(true);
               } else {
-                  console.log('Auth Guard: user is not logged in');
-                  this.router.navigate(['/login']);                   // a logged out user will always be sent to home
-                  resolve(false);
+                console.log('Auth Guard: user is not logged in');
+                this.router.navigate(['/login']);
+
+                resolve(false);
               }
           });
       });
