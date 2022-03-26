@@ -56,6 +56,7 @@ export class CasasComponent implements OnInit {
       this.toastr.success('', 'Sucesso')
     }, error => {
       this.toastr.warning('Algo deu errado, tenten novamente mais tarde', 'Ops..')
+      console.log(error)
     })
   }
 

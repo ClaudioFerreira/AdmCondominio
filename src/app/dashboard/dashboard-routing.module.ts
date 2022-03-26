@@ -14,7 +14,7 @@ const routes: Routes = [
     children: [
       { path: 'casas', component: CasasComponent },
       { path: 'casas/detalhes', component: CasasDetalhesComponent },
-      {path: '**', redirectTo: 'login'},
+      {path: '**', redirectTo: '/login'},
     ]
   },
 ];
